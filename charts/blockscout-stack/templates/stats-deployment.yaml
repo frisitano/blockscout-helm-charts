@@ -1,4 +1,5 @@
 {{- if .Values.stats.enabled }}
+{{- $fullName := include "blockscout-stack.fullname" . -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -56,7 +57,7 @@ spec:
           volumeMounts:
             {{- range $key, $value := .Values.stats.files.list }}
             - mountPath: {{ $.Values.stats.files.mountPath }}/{{ $key }}
-              name: {{ include "blockscout-stack.fullname" . }}-stats-cm
+              name: {{ $fullName }}-stats-cm
               subPath: {{ $key }}
             {{- end }}
           {{- end }}
@@ -83,9 +84,9 @@ spec:
       {{- if .Values.stats.files.enabled }}
       volumes:
         - configMap:
-            name: {{ include "blockscout-stack.fullname" . }}-stats-cm
+            name: {{ $fullName }}-stats-cm
             defaultMode: 0777
-          name: {{ include "blockscout-stack.fullname" . }}-stats-cm
+          name: {{ $fullName }}-stats-cm
       {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
