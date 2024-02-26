@@ -1,9 +1,10 @@
 {{- if .Values.stats.enabled }}
 {{- if .Values.stats.files.enabled }}
+{{- $fullName := include "blockscout-stack.fullname" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-stats-cm
+  name: {{ $fullName }}-stats-cm
   labels:
     {{- include "blockscout-stack.labels" . | nindent 4 }}
 data:
